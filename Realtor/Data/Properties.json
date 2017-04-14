@@ -1,0 +1,41 @@
+{
+    "6846d12af7a85aa194785e0be5229abd": {
+        "roadname": "\u00d8sterbrogade",
+        "roadnumber": "143",
+        "door": "4",
+        "municipality": "K\u00f8benhavn \u00d8",
+        "postalcode": "2100",
+        "images": [
+            "\/app\/Realtor\/Images\/12ad5891cb5a64486104e40c4e602afc.png",
+            "\/app\/Realtor\/Images\/9145345c4a9af782c972b063424ef015.png",
+            "\/app\/Realtor\/Images\/82857ed6b0207a4db8ecb05a62470399.png"
+        ],
+        "map": "https:\/\/www.google.com\/maps\/embed\/v1\/place?key=AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY&q=%C3%98sterbrogade++2100+K%C3%B8benhavn+%C3%98"
+    },
+    "a4c9a7c3ffcb093aab9f559aafc4af83": {
+        "roadname": "Nyelandsvej",
+        "roadnumber": "38",
+        "door": "5",
+        "municipality": "Frederiksberg",
+        "postalcode": "2000",
+        "images": [
+            "\/app\/Realtor\/Images\/303542a9d162cee0da3e161e59872b07.png",
+            "\/app\/Realtor\/Images\/598080418e700d4e1e462710ba4ccf31.png",
+            "\/app\/Realtor\/Images\/67189d601a2c2b3426236a80575ca876.png"
+        ],
+        "map": "https:\/\/www.google.com\/maps\/embed\/v1\/place?key=AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY&q=Nyelandsvej++2000+Frederiksberg"
+    },
+    "cffeff0e0fbcfdadf5de0d72665908f6": {
+        "roadname": "Nyelandsvej",
+        "roadnumber": "38",
+        "door": "5",
+        "municipality": "Frederiksberg",
+        "postalcode": "2000",
+        "images": [
+            "\/app\/Realtor\/Images\/4cd2066dd16358c2c7e6f77389a28b0b.png",
+            "\/app\/Realtor\/Images\/f73c98519a660dbd087babdbf6115686.png",
+            "\/app\/Realtor\/Images\/5e054c032cb1ee396bff31bc63fd26ea.png"
+        ],
+        "map": "https:\/\/www.google.com\/maps\/embed\/v1\/place?key=AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY&q=Nyelandsvej+38+2000+Frederiksberg"
+    }
+}
