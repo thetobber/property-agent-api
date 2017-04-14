@@ -1,12 +1,12 @@
 <?php 
-namespace Realtor\Models;
+namespace PropertyAgent\Models;
 
 use ReflectionClass;
-use Realtor\Models\Http\ServerRequest;
-use Realtor\Models\Http\Response;
-use Realtor\Models\Http\Stream;
-use Realtor\Models\ControllerTrait;
-use Realtor\Models\Utilities;
+use PropertyAgent\Models\Http\ServerRequest;
+use PropertyAgent\Models\Http\Response;
+use PropertyAgent\Models\Http\Stream;
+use PropertyAgent\Models\ControllerTrait;
+use PropertyAgent\Models\Utilities;
 
 /**
 * Defines the application which holds the incoming request from the client, routes the request

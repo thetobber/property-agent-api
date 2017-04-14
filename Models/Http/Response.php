@@ -1,9 +1,9 @@
 <?php
-namespace Realtor\Models\Http;
+namespace PropertyAgent\Models\Http;
 
 use InvalidArgumentException;
-use Realtor\Models\Http\MessageTrait;
-use Realtor\Models\Http\Stream;
+use PropertyAgent\Models\Http\MessageTrait;
+use PropertyAgent\Models\Http\Stream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 

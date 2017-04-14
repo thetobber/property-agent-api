@@ -1,9 +1,9 @@
 <?php
-namespace Realtor\Repositories;
+namespace PropertyAgent\Repositories;
 
 use InvalidArgumentException;
-use Realtor\Models\Http\Stream;
-use Realtor\Controllers\PropertiesController;
+use PropertyAgent\Models\Http\Stream;
+use PropertyAgent\Controllers\PropertiesController;
 
 abstract class RepositoryTrait
 {

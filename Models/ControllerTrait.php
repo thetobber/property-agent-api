@@ -1,9 +1,9 @@
 <?php
-namespace Realtor\Models;
+namespace PropertyAgent\Models;
 
 use InvalidArgumentException;
-use Realtor\Models\Http\ServerRequest;
-use Realtor\Models\Http\Response;
+use PropertyAgent\Models\Http\ServerRequest;
+use PropertyAgent\Models\Http\Response;
 
 abstract class ControllerTrait
 {

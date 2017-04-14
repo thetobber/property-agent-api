@@ -1,5 +1,5 @@
 <?php
-namespace Realtor\Models\Http;
+namespace PropertyAgent\Models\Http;
 
 use InvalidArgumentException;
 use RuntimeException;

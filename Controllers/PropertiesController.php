@@ -1,14 +1,14 @@
 <?php
-namespace Realtor\Controllers;
+namespace PropertyAgent\Controllers;
 
-use Realtor\Models\ControllerTrait;
-use Realtor\Models\Http\ServerRequest;
-use Realtor\Models\Http\Response;
-use Realtor\Models\Http\Stream;
-use Realtor\Models\ServerRequestFactory;
-use Realtor\Repositories\PropertiesRepository;
-use Realtor\Models\Utilities;
-use Realtor\Models\Auth;
+use PropertyAgent\Models\ControllerTrait;
+use PropertyAgent\Models\Http\ServerRequest;
+use PropertyAgent\Models\Http\Response;
+use PropertyAgent\Models\Http\Stream;
+use PropertyAgent\Models\ServerRequestFactory;
+use PropertyAgent\Repositories\PropertiesRepository;
+use PropertyAgent\Models\Utilities;
+use PropertyAgent\Models\Auth;
 
 /**
 * @todo
@@ -82,7 +82,7 @@ class PropertiesController extends ControllerTrait
             }
 
             $fileName = Utilities::createUniqId().$fileType;
-            $filePaths[] = '/app/Realtor/Images/'.$fileName;
+            $filePaths[] = '/app/PropertyAgent/Images/'.$fileName;
 
             $fileSources[] = array(
                 'path' => __DIR__.'/../Images/'.$fileName,

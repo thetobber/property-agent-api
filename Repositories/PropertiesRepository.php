@@ -1,7 +1,7 @@
 <?php
-namespace Realtor\Repositories;
+namespace PropertyAgent\Repositories;
 
-use Realtor\Repositories\RepositoryTrait;
+use PropertyAgent\Repositories\RepositoryTrait;
 
 class PropertiesRepository extends RepositoryTrait
 {

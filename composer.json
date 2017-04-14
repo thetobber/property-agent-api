@@ -1,7 +1,7 @@
 {
     "autoload": {
         "psr-4": {
-            "Realtor\\": "Realtor"
+            "PropertyAgent\\": ""
         }
     },
     "require": {

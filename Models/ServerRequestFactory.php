@@ -1,11 +1,11 @@
 <?php
-namespace Realtor\Models;
+namespace PropertyAgent\Models;
 
 use InvalidArgumentException;
-use Realtor\Models\Http\ServerRequest;
-use Realtor\Models\Http\Uri;
-use Realtor\Models\Http\UploadedFile;
-use Realtor\Models\Http\Stream;
+use PropertyAgent\Models\Http\ServerRequest;
+use PropertyAgent\Models\Http\Uri;
+use PropertyAgent\Models\Http\UploadedFile;
+use PropertyAgent\Models\Http\Stream;
 
 /**
 * @todo

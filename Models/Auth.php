@@ -1,8 +1,8 @@
 <?php
-namespace Realtor\Models;
+namespace PropertyAgent\Models;
 
-use Realtor\Repositories\UsersRepository;
-use Realtor\Models\Http\Stream;
+use PropertyAgent\Repositories\UsersRepository;
+use PropertyAgent\Models\Http\Stream;
 
 class Auth
 {

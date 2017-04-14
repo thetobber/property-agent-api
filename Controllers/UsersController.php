@@ -1,12 +1,12 @@
 <?php
-namespace Realtor\Controllers;
+namespace PropertyAgent\Controllers;
 
-use Realtor\Models\ControllerTrait;
-use Realtor\Models\Http\ServerRequest;
-use Realtor\Models\Http\Response;
-use Realtor\Models\Http\Stream;
-use Realtor\Models\Auth;
-use Realtor\Repositories\UsersRepository;
+use PropertyAgent\Models\ControllerTrait;
+use PropertyAgent\Models\Http\ServerRequest;
+use PropertyAgent\Models\Http\Response;
+use PropertyAgent\Models\Http\Stream;
+use PropertyAgent\Models\Auth;
+use PropertyAgent\Repositories\UsersRepository;
 
 /**
 * @todo

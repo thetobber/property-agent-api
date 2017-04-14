@@ -2,8 +2,8 @@
 session_start();
 require(__DIR__.'/vendor/autoload.php');
 
-use Realtor\Models\Application;
-use Realtor\Models\Utilities;
+use PropertyAgent\Models\Application;
+use PropertyAgent\Models\Utilities;
 
 $app = new Application();
 

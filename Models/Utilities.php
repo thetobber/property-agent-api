@@ -1,5 +1,5 @@
 <?php
-namespace Realtor\Models;
+namespace PropertyAgent\Models;
 
 /**
 * @todo

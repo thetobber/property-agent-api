@@ -4,31 +4,45 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0060607ec759deae279d540468d7edec
+class ComposerStaticInit0d7cfdac3ccce9bd2b3089355e7857e6
 {
     public static $prefixLengthsPsr4 = array (
-        'R' => 
-        array (
-            'Realtor\\' => 8,
-        ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'PropertyAgent\\' => 14,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Realtor\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/Realtor',
-        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'PropertyAgent\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/',
+        ),
     );
 
     public static $classMap = array (
+        'PropertyAgent\\Controllers\\PropertiesController' => __DIR__ . '/../..' . '/Controllers/PropertiesController.php',
+        'PropertyAgent\\Controllers\\UsersController' => __DIR__ . '/../..' . '/Controllers/UsersController.php',
+        'PropertyAgent\\Models\\Application' => __DIR__ . '/../..' . '/Models/Application.php',
+        'PropertyAgent\\Models\\Auth' => __DIR__ . '/../..' . '/Models/Auth.php',
+        'PropertyAgent\\Models\\ControllerTrait' => __DIR__ . '/../..' . '/Models/ControllerTrait.php',
+        'PropertyAgent\\Models\\Http\\MessageTrait' => __DIR__ . '/../..' . '/Models/Http/MessageTrait.php',
+        'PropertyAgent\\Models\\Http\\Request' => __DIR__ . '/../..' . '/Models/Http/Request.php',
+        'PropertyAgent\\Models\\Http\\Response' => __DIR__ . '/../..' . '/Models/Http/Response.php',
+        'PropertyAgent\\Models\\Http\\ServerRequest' => __DIR__ . '/../..' . '/Models/Http/ServerRequest.php',
+        'PropertyAgent\\Models\\Http\\Stream' => __DIR__ . '/../..' . '/Models/Http/Stream.php',
+        'PropertyAgent\\Models\\Http\\UploadedFile' => __DIR__ . '/../..' . '/Models/Http/UploadedFile.php',
+        'PropertyAgent\\Models\\Http\\Uri' => __DIR__ . '/../..' . '/Models/Http/Uri.php',
+        'PropertyAgent\\Models\\ServerRequestFactory' => __DIR__ . '/../..' . '/Models/ServerRequestFactory.php',
+        'PropertyAgent\\Models\\Utilities' => __DIR__ . '/../..' . '/Models/Utilities.php',
+        'PropertyAgent\\Repositories\\PropertiesRepository' => __DIR__ . '/../..' . '/Repositories/PropertiesRepository.php',
+        'PropertyAgent\\Repositories\\RepositoryTrait' => __DIR__ . '/../..' . '/Repositories/RepositoryTrait.php',
+        'PropertyAgent\\Repositories\\UsersRepository' => __DIR__ . '/../..' . '/Repositories/UsersRepository.php',
         'Psr\\Http\\Message\\MessageInterface' => __DIR__ . '/..' . '/psr/http-message/src/MessageInterface.php',
         'Psr\\Http\\Message\\RequestInterface' => __DIR__ . '/..' . '/psr/http-message/src/RequestInterface.php',
         'Psr\\Http\\Message\\ResponseInterface' => __DIR__ . '/..' . '/psr/http-message/src/ResponseInterface.php',
@@ -36,31 +50,14 @@ class ComposerStaticInit0060607ec759deae279d540468d7edec
         'Psr\\Http\\Message\\StreamInterface' => __DIR__ . '/..' . '/psr/http-message/src/StreamInterface.php',
         'Psr\\Http\\Message\\UploadedFileInterface' => __DIR__ . '/..' . '/psr/http-message/src/UploadedFileInterface.php',
         'Psr\\Http\\Message\\UriInterface' => __DIR__ . '/..' . '/psr/http-message/src/UriInterface.php',
-        'Realtor\\Controllers\\PropertiesController' => __DIR__ . '/../..' . '/Realtor/Controllers/PropertiesController.php',
-        'Realtor\\Controllers\\UsersController' => __DIR__ . '/../..' . '/Realtor/Controllers/UsersController.php',
-        'Realtor\\Models\\Application' => __DIR__ . '/../..' . '/Realtor/Models/Application.php',
-        'Realtor\\Models\\Auth' => __DIR__ . '/../..' . '/Realtor/Models/Auth.php',
-        'Realtor\\Models\\ControllerTrait' => __DIR__ . '/../..' . '/Realtor/Models/ControllerTrait.php',
-        'Realtor\\Models\\Http\\MessageTrait' => __DIR__ . '/../..' . '/Realtor/Models/Http/MessageTrait.php',
-        'Realtor\\Models\\Http\\Request' => __DIR__ . '/../..' . '/Realtor/Models/Http/Request.php',
-        'Realtor\\Models\\Http\\Response' => __DIR__ . '/../..' . '/Realtor/Models/Http/Response.php',
-        'Realtor\\Models\\Http\\ServerRequest' => __DIR__ . '/../..' . '/Realtor/Models/Http/ServerRequest.php',
-        'Realtor\\Models\\Http\\Stream' => __DIR__ . '/../..' . '/Realtor/Models/Http/Stream.php',
-        'Realtor\\Models\\Http\\UploadedFile' => __DIR__ . '/../..' . '/Realtor/Models/Http/UploadedFile.php',
-        'Realtor\\Models\\Http\\Uri' => __DIR__ . '/../..' . '/Realtor/Models/Http/Uri.php',
-        'Realtor\\Models\\ServerRequestFactory' => __DIR__ . '/../..' . '/Realtor/Models/ServerRequestFactory.php',
-        'Realtor\\Models\\Utilities' => __DIR__ . '/../..' . '/Realtor/Models/Utilities.php',
-        'Realtor\\Repositories\\PropertiesRepository' => __DIR__ . '/../..' . '/Realtor/Repositories/PropertiesRepository.php',
-        'Realtor\\Repositories\\RepositoryTrait' => __DIR__ . '/../..' . '/Realtor/Repositories/RepositoryTrait.php',
-        'Realtor\\Repositories\\UsersRepository' => __DIR__ . '/../..' . '/Realtor/Repositories/UsersRepository.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0060607ec759deae279d540468d7edec::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0060607ec759deae279d540468d7edec::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0060607ec759deae279d540468d7edec::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0d7cfdac3ccce9bd2b3089355e7857e6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0d7cfdac3ccce9bd2b3089355e7857e6::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit0d7cfdac3ccce9bd2b3089355e7857e6::$classMap;
 
         }, null, ClassLoader::class);
     }
