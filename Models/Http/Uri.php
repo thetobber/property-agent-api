@@ -46,7 +46,7 @@ class Uri implements UriInterface
     * The port is part of the authority. If no port is supplied it can 
     * be seen as using the default port :80 or :443 for a HTTPS request.
     *
-    * @see $host
+    * @see self::$host
     * @var int|null
     */
     protected $port;
