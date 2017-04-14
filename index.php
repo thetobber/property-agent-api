@@ -2,12 +2,17 @@
 session_start();
 require(__DIR__.'/vendor/autoload.php');
 
-use PropertyAgent\Models\Application;
+/*use PropertyAgent\Models\Application;
 use PropertyAgent\Models\Utilities;
 
-$app = new Application();
+$app = new Application();*/
 
-$app->registerController(
+
+header('HTTP/1.1 201 Created', true);
+
+echo 'test';
+
+/*$app->registerController(
     'UsersController',
     'Realtor\Controllers\UsersController'
 );
@@ -31,9 +36,6 @@ $app->registerRoute(
     'signOut'
 );
 
-//Users routes
-
-//All users paginated
 $app->registerRoute(
     'GET',
     '@^/app/users/$@i',
@@ -41,7 +43,6 @@ $app->registerRoute(
     'getUsers'
 );
 
-//Single user
 $app->registerRoute(
     'GET',
     '@^/app/users/(?<id>.+?\@.+?\..+?)/$@i',
@@ -49,7 +50,6 @@ $app->registerRoute(
     'getUser'
 );
 
-//Create user
 $app->registerRoute(
     'POST',
     '@^/app/users/$@i',
@@ -70,7 +70,6 @@ $app->registerRoute(
     'deleteUser'
 );
 
-//Properties routes
 $app->registerRoute(
     'GET',
     '@^/app/properties/(?<id>[a-f0-9]{32})/$@i',
@@ -102,4 +101,4 @@ $app->registerRoute(
     'deleteProperty'
 );
 
-$app->run();
+$app->run();*/

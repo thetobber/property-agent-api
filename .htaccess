@@ -1,5 +1,6 @@
+Header always set X-Content-Type-Options nosniff
+
 RewriteEngine On
-RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-D
 RewriteRule ^.*$ ./index.php [L]
