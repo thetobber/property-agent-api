@@ -21,10 +21,18 @@ abstract class ControllerTrait
     */
     protected $response;
 
+    /**
+    * The parameters parsed from the route variables.
+    *
+    * @var array
+    */
+    protected $params;
+
     public function __construct(ServerRequest $request, Response $response)
     {
         $this->request = $request;
         $this->response = $response;
+        $this->params = $request->getAttribute('routeParams');
     }
 
     /**
@@ -97,6 +105,26 @@ abstract class ControllerTrait
         }
 
         throw new InvalidArgumentException('Argument $contents must be a string.');
+    }
+
+    /**
+    * Return a response with an empty body and a status code only.
+    *
+    * @param int $statusCode Status code of the response.
+    * @return Response Returns a cloned instance of the response object passed upon
+    *   instantiation of this class with a new body and status code.
+    */
+    protected function status($statusCode = 200)
+    {
+        if (!isset(Response::STATUS_CODES[$statusCode])) {
+            $statusCode = 500;
+        }
+
+        $this->response = $this->response
+            ->withHeader('Content-Type', 'text/plain')
+            ->withStatus($statusCode);
+
+        return $this->response;
     }
 
     /**

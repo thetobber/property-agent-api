@@ -1,43 +1,37 @@
 <?php
 namespace PropertyAgent\Controllers;
 
+use PDO;
+use PDOException;
 use PropertyAgent\Models\ControllerTrait;
 use PropertyAgent\Models\Http\ServerRequest;
 use PropertyAgent\Models\Http\Response;
-use PropertyAgent\Models\Http\Stream;
-use PropertyAgent\Models\Auth;
-use PropertyAgent\Repositories\UsersRepository;
+use PropertyAgent\Data\DbContext;
 
 /**
 * @todo
 */
 class UsersController extends ControllerTrait
 {
-    protected $repository;
-
-    public function __construct(ServerRequest $request, Response $response)
-    {
-        parent::__construct($request, $response);
-        $this->repository = new UsersRepository();
-    }
-
     /**
     * @todo
     */
     public function getUser()
     {
-        if (!Auth::hasRole('admin') || !Auth::hasRole('superadmin')) {
-            return $this->text('', 403);
+        $pdo = DbContext::getContext();
+
+        $statement = $pdo->prepare('CALL getUser(?)');
+
+        $statement->bindParam(1, $this->params['username'], PDO::PARAM_STR, 255);
+
+        if ($statement->execute() && ($user = $statement->fetch(PDO::FETCH_ASSOC)) !== false) {
+            return $this->json(
+                $user,
+                200
+            );
         }
 
-        $params = $this->request->getAttribute('routeParams');
-        $user = $this->repository->get($params['id']);
-
-        if ($user === null) {
-            return $this->text('', 404);
-        }
-
-        return $this->json($user);
+        return $this->status(404);
     }
 
     /**
@@ -45,13 +39,7 @@ class UsersController extends ControllerTrait
     */
     public function getUsers()
     {
-        if (!Auth::hasRole('admin', 'superadmin')) {
-            return $this->text('', 403);
-        }
-
-        return $this->json(
-            $this->repository->getAll()
-        );
+        return $this->status(501);
     }
 
     /**
@@ -59,23 +47,29 @@ class UsersController extends ControllerTrait
     */
     public function createUser()
     {
-        $params = $this->request->getAttribute('routeParams');
         $body = $this->request->getParsedBody();
+        $pdo = DbContext::getContext();
+        $statement = $pdo->prepare('CALL createUser(?, ?, ?)');
 
-        if (empty($body)) {
-            return $this->text('', 400);
+        try {
+            $statement->bindParam(1, $body['username'], PDO::PARAM_STR, 255);
+            $statement->bindParam(2, $body['email'], PDO::PARAM_STR, 255);
+            $statement->bindParam(3, $body['password'], PDO::PARAM_STR, 255);
+
+            $statement->execute();
+
+        } catch (PDOException $exception) {
+            $errorCode = $exception->getCode();
+
+            if ($errorCode === '23000') {
+                return $this->status(409);
+            }
+
+            return $this->text($errorCode, 500);
         }
 
-        $body['role'] = UsersRepository::ROLES[0];
-        $isCreated = $this->repository->create($body, 'email');
 
-        if ($isCreated === null) {
-            return $this->text('Username taken', 400);
-        } else if ($isCreated) {
-            return $this->text('', 201);
-        }
-
-        return $this->text('', 400);
+        return $this->status(201);
     }
 
     /**
@@ -83,22 +77,7 @@ class UsersController extends ControllerTrait
     */
     public function updateUser()
     {
-        if (!Auth::hasRole('admin', 'superadmin')) {
-            return $this->text('', 403);
-        }
-
-        $params = $this->request->getAttribute('routeParams');
-        $body = $this->request->getParsedBody();
-
-        if (empty($body)) {
-            return $this->text('', 400);
-        }
-
-        if ($this->repository->update($params['id'], $body)) {
-            return $this->text('', 204);
-        }
-
-        return $this->text('', 404);
+        return $this->status(501);
     }
 
     /**
@@ -106,49 +85,6 @@ class UsersController extends ControllerTrait
     */
     public function deleteUser()
     {
-        if (!Auth::hasRole('admin', 'superadmin')) {
-            return $this->text('', 403);
-        }
-
-        $params = $this->request->getAttribute('routeParams');
-
-        if ($this->repository->delete($params['id'])) {
-
-            if ($params['id'] === $_SESSION['email']) {
-                Auth::signOut();
-            }
-
-            return $this->text('', 204);
-        }
-
-        return $this->text('', 404);
-    }
-
-    public function signIn()
-    {
-        $body = $this->request->getParsedBody();
-
-        if (empty($body['email']) || empty($body['password'])) {
-            return $this->json(array(
-                'error' => 'Failed to sign in'
-            ), 400);
-        }
-
-        if (Auth::signIn($body['email'], $body['password'])) {
-            return $this->json(array(
-                'user' => $_SESSION['email'],
-                'role' => $_SESSION['role']
-            ), 200);
-        }
-
-        return $this->json(array(
-            'error' => 'Failed to sign in'
-        ), 400);
-    }
-
-    public function signOut()
-    {
-        Auth::signOut();
-        return $this->text('', 204);
+        return $this->status(501);
     }
 }

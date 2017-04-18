@@ -34,19 +34,16 @@ class DbContext
     */
     public static function getContext()
     {
-        if ($this->pdo === null) {
+        if (self::$pdo === null) {
             try {
-                $this->pdo = new PDO(
+                self::$pdo = new PDO(
                     DbConfig::DRIVER.':host='.DbConfig::HOST.';dbname='.DbConfig::DBNAME,
                     DbConfig::USER,
-                    DbConfig::PASSWORD
+                    DbConfig::PASSWORD,
+                    array(
+                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                    )
                 );
-
-                $this->pdo
-                    ->setAttribute(
-                        PDO::ATTR_ERRMODE,
-                        PDO::ERRMODE_EXCEPTION
-                    );
             } catch (PDOException $exceoption) {
                 header(
                     'HTTP/1.1 500 Internal Server Error',
@@ -54,10 +51,12 @@ class DbContext
                     500
                 );
 
+                echo 'abc';
+
                 die();
             }
         }
 
-        return $this->pdo;
+        return self::$pdo;
     }
 }

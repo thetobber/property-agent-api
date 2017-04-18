@@ -1,16 +1,36 @@
 <?php
-session_start();
+//session_start();
 require(__DIR__.'/vendor/autoload.php');
 
-/*use PropertyAgent\Models\Application;
+use PropertyAgent\Models\Application;
 use PropertyAgent\Models\Utilities;
 
-$app = new Application();*/
+$app = new Application();
 
+$app->registerController(
+    'UsersController',
+    'PropertyAgent\Controllers\UsersController'
+);
 
-header('HTTP/1.1 201 Created', true);
+$app->registerRoute(
+    'GET',
+    '@^/users/(?<username>[a-z]+?)/$@i',
+    'UsersController',
+    'getUser'
+);
 
-echo 'test';
+$app->registerRoute(
+    'POST',
+    '@^/users/$@i',
+    'UsersController',
+    'createUser'
+);
+
+//Utilities::print($app->routes);
+//Utilities::print($app->controllers);
+
+$app->run();
+//Utilities::print($app->request->getUri());
 
 /*$app->registerController(
     'UsersController',

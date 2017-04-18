@@ -20,7 +20,7 @@ class Application
     *
     * @var ServerRequest
     */
-    protected $request;
+    public $request;
     
     /**
     * The response that will be returned to the user. This will be manipulated by the controllers 
@@ -52,6 +52,9 @@ class Application
     */
     public function __construct()
     {
+        //ini_set('display_errors', false);
+        ini_set('default_mimetype', '');
+
         $this->request = ServerRequestFactory::getServerRequest();
         $this->response = new Response();
     }
@@ -94,7 +97,7 @@ class Application
     */
     private function getController($controllerClass)
     {
-        if (!isset($controllers[$controllerClass])) {            
+        if (!isset($this->controllers[$controllerClass])) {            
             $reflection = new ReflectionClass($controllerClass);
 
             $controller = $reflection
@@ -117,8 +120,6 @@ class Application
     */
     protected function respond()
     {
-        ini_set('default_mimetype', '');
-
         $statusCode = $this->response->getStatusCode();
 
         //Don't resend headers if they've already been sent
@@ -195,6 +196,7 @@ class Application
         $requestPath = $this->request
             ->getUri()
             ->getPath();
+
 
         //If no routes with the request method exists then return 404 to the client
         if (!isset($this->routes[$requestMethod])) {
