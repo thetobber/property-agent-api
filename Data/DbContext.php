@@ -3,7 +3,7 @@ namespace PropertyAgent\Data;
 
 use PDO;
 use PDOException;
-use PropertyAgent\Data\DbConfig;
+use PropertyAgent\Config;
 
 /**
 * Defines a context which can be used to create/get a singleton instance
@@ -27,7 +27,7 @@ class DbContext
     }
 
     /**
-    * Creates a new instance of PDO with the settings from DbConfig or returns 
+    * Creates a new instance of PDO with the settings from Config or returns 
     * the same instance if this method has been called before.
     *
     * @return PDO
@@ -37,22 +37,16 @@ class DbContext
         if (self::$pdo === null) {
             try {
                 self::$pdo = new PDO(
-                    DbConfig::DRIVER.':host='.DbConfig::HOST.';dbname='.DbConfig::DBNAME,
-                    DbConfig::USER,
-                    DbConfig::PASSWORD,
+                    'mysql:host='.Config::DB_HOST.';dbname='.Config::DB_NAME,
+                    Config::DB_USER,
+                    Config::DB_PASSWORD,
                     array(
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_EMULATE_PREPARES => false
                     )
                 );
             } catch (PDOException $exceoption) {
-                header(
-                    'HTTP/1.1 500 Internal Server Error',
-                    true,
-                    500
-                );
-
-                echo 'abc';
+                header('HTTP/1.1 500 Internal Server Error', true);
 
                 die();
             }

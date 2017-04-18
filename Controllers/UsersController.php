@@ -44,7 +44,7 @@ class UsersController extends ControllerTrait
     public function getUsers()
     {
         $limit = 2;
-        $page = (int) $this->params['page'] ?? 0;
+        $page = isset($this->params['page']) ? (int) $this->params['page'] : 0;
 
         if ($page >= 1) {
             $page--;
