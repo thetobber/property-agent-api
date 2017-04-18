@@ -7,8 +7,7 @@ use PropertyAgent\Models\Http\Response;
 use PropertyAgent\Models\Http\Stream;
 use PropertyAgent\Models\ServerRequestFactory;
 use PropertyAgent\Repositories\PropertiesRepository;
-use PropertyAgent\Models\Utilities;
-use PropertyAgent\Models\Auth;
+
 
 /**
 * @todo

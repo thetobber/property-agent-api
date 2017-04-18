@@ -1,6 +1,11 @@
 Header always set X-Content-Type-Options nosniff
 
+#RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-D
+#RewriteRule ^.*$ ./index.php [L]
+
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-D
+RewriteCond %{REQUEST_URI} !/Files
 RewriteRule ^.*$ ./index.php [L]
