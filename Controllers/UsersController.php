@@ -1,13 +1,10 @@
 <?php
 namespace PropertyAgent\Controllers;
 
-use PDO;
-use PDOException;
 use PropertyAgent\Models\ControllerTrait;
-use PropertyAgent\Models\Http\ServerRequest;
-use PropertyAgent\Models\Http\Response;
-use PropertyAgent\Data\DbContext;
 use PropertyAgent\Repositories\UsersRepository;
+use Respect\Validation\Validator;
+use PropertyAgent\Models\Authentication as Auth;
 
 /**
 * @todo
@@ -19,8 +16,8 @@ class UsersController extends ControllerTrait
     */
     public function getUser()
     {
-        if (empty($this->params['username'])) {
-            return $this->status(404);
+        if (!Auth::isSameUser($this->params['username']) && !Auth::hasScopes('admin', 'superadmin')) {
+            return $this->status(403);
         }
 
         $repo = new UsersRepository();
@@ -43,6 +40,10 @@ class UsersController extends ControllerTrait
     */
     public function getUsers()
     {
+        if (!Auth::hasScopes('admin', 'superadmin')) {
+            return $this->status(403);
+        }
+
         $limit = 2;
         $page = isset($this->params['page']) ? (int) $this->params['page'] : 0;
 
@@ -86,7 +87,26 @@ class UsersController extends ControllerTrait
     {
         $body = $this->request->getParsedBody();
 
-        if (empty($body['username']) || empty($body['email']) || empty($body['password'])) {
+        $userValidator = Validator::arrayType()
+            ->key(
+                'username',
+                Validator::stringType()
+                    ->noWhitespace()
+                    ->alnum('-_')
+                    ->length(4, 200)
+            )
+            ->key(
+                'email',
+                Validator::email()
+            )
+            ->key(
+                'password',
+                Validator::stringType()
+                    ->notEmpty()
+                    ->length(6, 255)
+            );
+
+        if (!$userValidator->validate($body)) {
             return $this->status(400);
         }
 
@@ -112,9 +132,25 @@ class UsersController extends ControllerTrait
     */
     public function updateUser()
     {
+        if (!Auth::isSameUser($this->params['username']) || !Auth::hasScopes('admin', 'superadmin')) {
+            return $this->status(403);
+        }
+
         $body = $this->request->getParsedBody();
 
-        if (empty($body['email']) || empty($body['password'])) {
+        $userValidator = Validator::arrayType()
+            ->key(
+                'email',
+                Validator::email()
+            )
+            ->key(
+                'password',
+                Validator::stringType()
+                    ->notEmpty()
+                    ->length(6, 255)
+            );
+
+        if (!$userValidator->validate($body)) {
             return $this->status(400);
         }
 

@@ -1,9 +1,10 @@
 <?php
-//session_start();
+session_start();
 require(__DIR__.'/vendor/autoload.php');
 
 use PropertyAgent\Models\Application;
 use PropertyAgent\Models\Utilities;
+use PropertyAgent\Models\Authentication as Auth;
 
 $app = new Application();
 
@@ -24,7 +25,7 @@ $app->registerRoute(
 // Fetch a single user by username
 $app->registerRoute(
     'GET',
-    '@^/users/(?<username>[a-z0-9]+?)/$@i',
+    '@^/users/(?<username>[a-z0-9_-]+?)/$@i',
     'UsersController',
     'getUser'
 );
@@ -40,7 +41,7 @@ $app->registerRoute(
 // Update an existing user by username
 $app->registerRoute(
     'POST',
-    '@^/users/(?<username>[a-z0-9]+?)/$@i',
+    '@^/users/(?<username>[a-z0-9_-]+?)/$@i',
     'UsersController',
     'updateUser'
 );

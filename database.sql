@@ -23,16 +23,14 @@ DROP PROCEDURE IF EXISTS `createUser`;
 CREATE TABLE `users` (
     `id`        INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `email`     VARCHAR(255) NOT NULL,
-    `username`  VARCHAR(255) NOT NULL,
+    `username`  VARCHAR(200) NOT NULL,
     `password`  VARCHAR(255) NOT NULL,
-    `verified`  TINYINT NOT NULL,
+    `verified`  TINYINT(1) NOT NULL,
 
     PRIMARY KEY (`id`),
     UNIQUE INDEX `username_UNIQUE` (`username` ASC)
 )
-ENGINE = InnoDB
-CHARACTER SET 'utf8'
-COLLATE 'utf8_unicode_ci';
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `property_agent`.`scopes`
@@ -69,13 +67,11 @@ ENGINE = InnoDB;
 -- View `property_agent`.`users_view`
 -- -----------------------------------------------------
 CREATE VIEW `users_view` AS
-    SELECT `users`.`id`, `users`.`username`, `users`.`email`, `scopes`.`scope`
-    FROM `users`
-    INNER JOIN `user_scopes`
-        ON `users`.`id` = `user_scopes`.`user_id`
-    INNER JOIN `scopes`
-        ON `user_scopes`.`scope_id` = `scopes`.`id`
-    GROUP BY `users`.`id`;
+    SELECT `users`.`id`, `users`.`username`, `users`.`email`, GROUP_CONCAT(DISTINCT `scopes`.`scope` SEPARATOR ',') `scopes`
+        FROM `users`
+        INNER JOIN `user_scopes` ON `users`.`id` = `user_scopes`.`user_id`
+        INNER JOIN `scopes` ON `user_scopes`.`scope_id` = `scopes`.`id`
+        GROUP BY `users`.`id` ASC;
 
 DELIMITER //
 -- -----------------------------------------------------
@@ -96,12 +92,17 @@ BEGIN
 END//
 
 -- -----------------------------------------------------
--- Stored procedure `property_agent`.`getUser`
+-- Stored procedure `property_agent`.`getUserForSignIn`
 -- -----------------------------------------------------
-CREATE PROCEDURE getUser(IN users_username VARCHAR(255))
+CREATE PROCEDURE getUserForSignIn(IN username VARCHAR(200), IN password VARCHAR(255))
 BEGIN
-    SELECT `username`, `email` FROM `users`
-        WHERE `username` = users_username;
+    SELECT `users`.`id`, `users`.`username`, `users`.`email`, GROUP_CONCAT(DISTINCT `scopes`.`scope` SEPARATOR ',') `scopes`
+        FROM `users`
+        INNER JOIN `user_scopes` ON `users`.`id` = `user_scopes`.`user_id`
+        INNER JOIN `scopes` ON `user_scopes`.`scope_id` = `scopes`.`id`
+        WHERE `users`.`username` = username
+        AND `users`.`password` = password
+        LIMIT 1;
 END//
 
 DELIMITER ;

@@ -12,7 +12,7 @@ use PropertyAgent\Config;
 class DbContext
 {
     /**
-    * The single instance of a PDO object.$_COOKIE
+    * The single instance of a PDO object.
     *
     * @var PDO
     */
@@ -39,7 +39,7 @@ class DbContext
                 self::$pdo = new PDO(
                     'mysql:host='.Config::DB_HOST.';dbname='.Config::DB_NAME,
                     Config::DB_USER,
-                    Config::DB_PASSWORD,
+                    Config::DB_PASS,
                     array(
                         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                         PDO::ATTR_EMULATE_PREPARES => false
@@ -48,7 +48,7 @@ class DbContext
             } catch (PDOException $exceoption) {
                 header('HTTP/1.1 500 Internal Server Error', true);
 
-                die();
+                die('Could not connect to database.');
             }
         }
 

@@ -7,26 +7,6 @@ use PropertyAgent\Data\DbContext;
 
 class UsersRepository
 {
-    const ROLES = array(
-        1 => 'normal',
-        2 => 'realtor',
-        3 => 'admin',
-        4 => 'superadmin'
-    );
-
-    /*public function __construct()
-    {
-        parent::__construct(
-            __DIR__.'/../Data/Users.json',
-            array(
-                'name' => '@^.+?$@',
-                'email' => '@^.+\@.+?$@',
-                'password' => '@^.+?$@',
-                'role' => null
-            )
-        );
-    }*/
-
     /**
     * Get a single user from the database by their username.
     *
