@@ -7,6 +7,7 @@ use PropertyAgent\Models\ControllerTrait;
 use PropertyAgent\Models\Http\ServerRequest;
 use PropertyAgent\Models\Http\Response;
 use PropertyAgent\Data\DbContext;
+use PropertyAgent\Repositories\UsersRepository;
 
 /**
 * @todo
@@ -18,20 +19,23 @@ class UsersController extends ControllerTrait
     */
     public function getUser()
     {
-        $pdo = DbContext::getContext();
-
-        $statement = $pdo->prepare('CALL getUser(?)');
-
-        $statement->bindParam(1, $this->params['username'], PDO::PARAM_STR, 255);
-
-        if ($statement->execute() && ($user = $statement->fetch(PDO::FETCH_ASSOC)) !== false) {
-            return $this->json(
-                $user,
-                200
-            );
+        if (empty($this->params['username'])) {
+            return $this->status(404);
         }
 
-        return $this->status(404);
+        $repo = new UsersRepository();
+
+        $user = $repo->get($this->params['username']);
+
+        if ($user === 404) {
+            return $this->status(404);
+        }
+        
+        if ($user === 500) {
+            return $this->status(500);
+        }
+
+        return $this->json($user, 200);
     }
 
     /**
@@ -39,7 +43,40 @@ class UsersController extends ControllerTrait
     */
     public function getUsers()
     {
-        return $this->status(501);
+        $limit = 2;
+        $page = (int) $this->params['page'] ?? 0;
+
+        if ($page >= 1) {
+            $page--;
+        } else {
+            $page = 0;
+        }
+
+        $repo = new UsersRepository();
+
+        $users = $repo->getAll($limit, $page * $limit);
+
+        if ($users === 404) {
+            return $this->status(404);
+        }
+        
+        if ($users === 500) {
+            return $this->status(500);
+        }
+
+        $total = $repo->getCount();
+        $maxPages = 0;
+
+        if ($total !== 0 && $limit !== 0) {
+            $maxPages = $total > $limit ? ceil($total/$limit) : ceil($limit/$total);
+        }
+
+        $users = array(
+            'maxPages' => $maxPages,
+            'users' => $users
+        );
+
+        return $this->json($users, 200);
     }
 
     /**
@@ -48,28 +85,26 @@ class UsersController extends ControllerTrait
     public function createUser()
     {
         $body = $this->request->getParsedBody();
-        $pdo = DbContext::getContext();
-        $statement = $pdo->prepare('CALL createUser(?, ?, ?)');
 
-        try {
-            $statement->bindParam(1, $body['username'], PDO::PARAM_STR, 255);
-            $statement->bindParam(2, $body['email'], PDO::PARAM_STR, 255);
-            $statement->bindParam(3, $body['password'], PDO::PARAM_STR, 255);
-
-            $statement->execute();
-
-        } catch (PDOException $exception) {
-            $errorCode = $exception->getCode();
-
-            if ($errorCode === '23000') {
-                return $this->status(409);
-            }
-
-            return $this->text($errorCode, 500);
+        if (empty($body['username']) || empty($body['email']) || empty($body['password'])) {
+            return $this->status(400);
         }
 
+        $repo = new UsersRepository();
 
-        return $this->status(201);
+        $status = $repo->create($body);
+
+        if ($status === 201) {
+            return $this->status(201);
+        }
+
+        if ($status === 409) {
+            return $this->status(409);
+        }
+        
+        if ($status === 500) {
+            return $this->status(500);
+        }
     }
 
     /**
@@ -77,14 +112,22 @@ class UsersController extends ControllerTrait
     */
     public function updateUser()
     {
-        return $this->status(501);
-    }
+        $body = $this->request->getParsedBody();
 
-    /**
-    * @todo
-    */
-    public function deleteUser()
-    {
-        return $this->status(501);
+        if (empty($body['email']) || empty($body['password'])) {
+            return $this->status(400);
+        }
+
+        $repo = new UsersRepository();
+
+        $status = $repo->update($this->params['username'], $body);
+
+        if ($status === 204) {
+            return $this->status(204);
+        }
+
+        if ($status === 500) {
+            return $this->status(500);
+        }
     }
 }

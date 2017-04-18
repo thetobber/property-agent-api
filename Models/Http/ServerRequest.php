@@ -180,6 +180,10 @@ class ServerRequest extends Request implements ServerRequestInterface
         $contents = (string) $this->body;
         $mediaType = $this->getHeader('content-type');
 
+        if (empty($mediaType)) {
+            return $contents;
+        }
+
         if ($mediaType == 'application/x-www-form-urlencoded') {
             $parsed = array();
             parse_str($contents, $parsed);

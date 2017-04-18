@@ -7,18 +7,29 @@ use PropertyAgent\Models\Utilities;
 
 $app = new Application();
 
+// Registering users controller for use in routes
 $app->registerController(
     'UsersController',
     'PropertyAgent\Controllers\UsersController'
 );
 
+// Get all users paginated
 $app->registerRoute(
     'GET',
-    '@^/users/(?<username>[a-z]+?)/$@i',
+    '@^/(users|users/(?<page>[0-9]+?))/$@i',
+    'UsersController',
+    'getUsers'
+);
+
+// Fetch a single user by username
+$app->registerRoute(
+    'GET',
+    '@^/users/(?<username>[a-z0-9]+?)/$@i',
     'UsersController',
     'getUser'
 );
 
+// Create a new user
 $app->registerRoute(
     'POST',
     '@^/users/$@i',
@@ -26,99 +37,15 @@ $app->registerRoute(
     'createUser'
 );
 
-//Utilities::print($app->routes);
-//Utilities::print($app->controllers);
-
-$app->run();
-//Utilities::print($app->request->getUri());
-
-/*$app->registerController(
-    'UsersController',
-    'Realtor\Controllers\UsersController'
-);
-
-$app->registerController(
-    'PropertiesController',
-    'Realtor\Controllers\PropertiesController'
-);
-
+// Update an existing user by username
 $app->registerRoute(
     'POST',
-    '@^/app/signin/$@i',
-    'UsersController',
-    'signIn'
-);
-
-$app->registerRoute(
-    'POST',
-    '@^/app/signout/$@i',
-    'UsersController',
-    'signOut'
-);
-
-$app->registerRoute(
-    'GET',
-    '@^/app/users/$@i',
-    'UsersController',
-    'getUsers'
-);
-
-$app->registerRoute(
-    'GET',
-    '@^/app/users/(?<id>.+?\@.+?\..+?)/$@i',
-    'UsersController',
-    'getUser'
-);
-
-$app->registerRoute(
-    'POST',
-    '@^/app/users/$@i',
-    'UsersController',
-    'createUser'
-);
-
-$app->registerRoute(
-    'POST',
-    '@^/app/users/update/(?<id>.+?\@.+?\..+?)/$@i',
+    '@^/users/(?<username>[a-z0-9]+?)/$@i',
     'UsersController',
     'updateUser'
 );
-$app->registerRoute(
-    'POST',
-    '@^/app/users/delete/(?<id>.+?\@.+?\..+?)/$@i',
-    'UsersController',
-    'deleteUser'
-);
 
-$app->registerRoute(
-    'GET',
-    '@^/app/properties/(?<id>[a-f0-9]{32})/$@i',
-    'PropertiesController',
-    'getProperty'
-);
-$app->registerRoute(
-    'GET',
-    '@^/app/properties/$@i',
-    'PropertiesController',
-    'getProperties'
-);
-$app->registerRoute(
-    'POST',
-    '@^/app/properties/$@i',
-    'PropertiesController',
-    'createProperty'
-);
-$app->registerRoute(
-    'POST',
-    '@^/app/properties/update/(?<id>[a-f0-9]{32})/$@i',
-    'PropertiesController',
-    'updateProperty'
-);
-$app->registerRoute(
-    'POST',
-    '@^/app/properties/delete/(?<id>[a-f0-9]{32})/$@i',
-    'PropertiesController',
-    'deleteProperty'
-);
+$app->run();
 
-$app->run();*/
+//Utilities::print($app->routes);
+//Utilities::print($app->controllers);

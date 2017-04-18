@@ -71,9 +71,11 @@ ENGINE = InnoDB;
 CREATE VIEW `users_view` AS
     SELECT `users`.`id`, `users`.`username`, `users`.`email`, `scopes`.`scope`
     FROM `users`
+    INNER JOIN `user_scopes`
+        ON `users`.`id` = `user_scopes`.`user_id`
     INNER JOIN `scopes`
-    ON `users`.`id` = `scopes`.`id`;
-
+        ON `user_scopes`.`scope_id` = `scopes`.`id`
+    GROUP BY `users`.`id`;
 
 DELIMITER //
 -- -----------------------------------------------------
