@@ -16,27 +16,13 @@ use PropertyAgent\Models\Auth;
 class PropertiesController extends ControllerTrait
 {
     const MAPS_KEY = 'AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY';
-    protected $repository;
-
-    public function __construct(ServerRequest $request, Response $response)
-    {
-        parent::__construct($request, $response);
-        $this->repository = new PropertiesRepository();
-    }
 
     /**
     * @todo
     */
     public function getProperty()
     {
-        $params = $this->request->getAttribute('routeParams');
-        $property = $this->repository->get($params['id']);
-
-        if ($property === null) {
-            return $this->text('', 404);
-        }
-
-        return $this->json($property);
+        return $this->status(501);
     }
 
     /**
@@ -44,9 +30,7 @@ class PropertiesController extends ControllerTrait
     */
     public function getProperties()
     {
-        return $this->json(
-            $this->repository->getAll()
-        );
+        return $this->status(501);
     }
 
     /**
