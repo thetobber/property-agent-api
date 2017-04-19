@@ -96,7 +96,6 @@ class Response extends MessageTrait implements ResponseInterface
     /**
     * Reason phrase corresponding to the given status code.
     *
-    * @see $statusCode
     * @var string
     */
     protected $reasonPhrase;

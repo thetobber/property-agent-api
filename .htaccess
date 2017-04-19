@@ -1,9 +1,12 @@
-Header always set X-Content-Type-Options nosniff
+Header always set X-Content-Type-Options "nosniff"
 
-#RewriteEngine On
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-D
-#RewriteRule ^.*$ ./index.php [L]
+Header always set Access-Control-Allow-Origin "http://api.propertyagent.local"
+Header always append Access-Control-Allow-Origin "http://www.api.propertyagent.local"
+
+Header always set Access-Control-Allow-Methods "GET"
+Header always append Access-Control-Allow-Methods "POST"
+Header always append Access-Control-Allow-Methods "HEAD"
+Header always append Access-Control-Allow-Methods "OPTIONS"
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
