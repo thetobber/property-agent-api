@@ -1,5 +1,6 @@
 <?php
 session_start();
+ini_set('html_errors', false);
 require(__DIR__.'/vendor/autoload.php');
 
 use PropertyAgent\Models\Application;
@@ -8,16 +9,80 @@ use PropertyAgent\Models\Authentication as Auth;
 
 $app = new Application();
 
-// Registering users controller for use in routes
+// Sign user in
+$app->registerRoute(
+    'POST',
+    '@^/auth/signin/$@i',
+    'AuthController',
+    'signIn'
+);
+
+// Sign user out
+$app->registerRoute(
+    'POST',
+    '@^/auth/signout/$@i',
+    'AuthController',
+    'signOut'
+);
+
+
+
+
+
+// Registering AuthController for use in routes
+$app->registerController(
+    'AuthController',
+    'PropertyAgent\Controllers\AuthController'
+);
+
+// Registering PropertiesController for use in routes
+$app->registerController(
+    'PropertiesController',
+    'PropertyAgent\Controllers\PropertiesController'
+);
+
+// Registering UsersController for use in routes
 $app->registerController(
     'UsersController',
     'PropertyAgent\Controllers\UsersController'
 );
 
+
+
+
+
+// Get all properties paginated
+$app->registerRoute(
+    'GET',
+    '@^/(properties|properties/p/(?<page>[0-9]+?))/$@i',
+    'PropertiesController',
+    'getProperties'
+);
+
+// Get signle property by id
+$app->registerRoute(
+    'GET',
+    '@^/properties/(?<id>[0-9]+?)/$@i',
+    'PropertiesController',
+    'getProperty'
+);
+
+// Create a property
+$app->registerRoute(
+    'POST',
+    '@^/properties/$@i',
+    'PropertiesController',
+    'createProperty'
+);
+
+
+
+
+
 // Get all users paginated
 $app->registerRoute(
     'GET',
-    '@^/(users|users/(?<page>[0-9]+?))/$@i',
+    '@^/(users|users/p/(?<page>[0-9]+?))/$@i',
     'UsersController',
     'getUsers'
 );
@@ -47,6 +112,3 @@ $app->registerRoute(
 );
 
 $app->run();
-
-//Utilities::print($app->routes);
-//Utilities::print($app->controllers);

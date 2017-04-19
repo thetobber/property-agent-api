@@ -68,8 +68,8 @@ abstract class Authentication
                 return false;
             }
 
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['scopes'] = array_flip(explode(',', $user['scopes']));
+            $_SESSION['username'] = strtolower($user['username']);
+            $_SESSION['scopes'] = array_flip(explode(',', strtolower($user['scopes'])));
             $_SESSION['verified'] = true;
 
             return true;
@@ -110,7 +110,7 @@ abstract class Authentication
     public static function isSameUser($username)
     {
         if (self::isVerified()) {
-            return ($_SESSION['username'] === $username);
+            return ($_SESSION['username'] === strtolower($username));
         }
 
         return false;

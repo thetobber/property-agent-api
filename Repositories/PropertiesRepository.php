@@ -7,22 +7,16 @@ use PropertyAgent\Data\DbContext;
 
 class PropertiesRepository
 {
-    /**
-    * Get a single user from the database by their username.
-    *
-    * @param string $username
-    * @return int|array Returns int on error or array with the user on success.
-    */
-    public function get($username)
+    public function get($id)
     {
         $pdo = DbContext::getContext();
 
         try {
             $statement = $pdo
-                ->prepare('SELECT `id`, `email`, `username` FROM `users` WHERE `username` = ?');
+                ->prepare('SELECT * FROM `properties_view` WHERE `id` = ?');
 
             $statement
-                ->bindParam(1, $username, PDO::PARAM_STR, 255);
+                ->bindParam(1, $id, PDO::PARAM_STR, 255);
 
             $statement
                 ->execute();
@@ -30,27 +24,20 @@ class PropertiesRepository
             return 500;
         }
 
-        if (($user = $statement->fetch(PDO::FETCH_ASSOC)) !== false) {
-            return $user;
+        if (($property = $statement->fetch(PDO::FETCH_ASSOC)) !== false) {
+            return $property;
         }
 
         return 404;
     }
 
-    /**
-    * Return a limited number of users with an offset. This is used for pagination.
-    *
-    * @param int $limit
-    * @param int $offset
-    * @return int|array Returns int on error or array with the users on success.
-    */
     public function getAll($limit, $offset)
     {
         $pdo = DbContext::getContext();
 
         try {
             $statement = $pdo
-                ->prepare('SELECT `id`, `email`, `username` FROM `users` LIMIT ? OFFSET ?');
+                ->prepare('SELECT * FROM `properties_view` LIMIT ? OFFSET ?');
 
             $statement
                 ->bindParam(1, $limit, PDO::PARAM_INT);
@@ -64,27 +51,22 @@ class PropertiesRepository
             return 500;
         }
 
-        $users = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $properties = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($users !== false && !empty($users)) {
-            return $users;
+        if ($properties !== false && !empty($properties)) {
+            return $properties;
         }
 
         return 404;
     }
 
-    /**
-    * Return the total count of all the user records.
-    *
-    * @return int
-    */
     public function getCount()
     {
         $pdo = DbContext::getContext();
 
         try {
             $statement = $pdo
-                ->prepare('SELECT COUNT(*) AS `count` FROM `users`');
+                ->prepare('SELECT COUNT(*) AS `count` FROM `properties_view`');
 
             $statement
                 ->execute();
@@ -101,71 +83,51 @@ class PropertiesRepository
         return 0;
     }
 
-    /**
-    * Inserts an user into the database.
-    *
-    * @param array $model The required user information.
-    * @return int Returns an integer corresponding to a HTTP status code.
-    */
     public function create(array $model)
     {
         $pdo = DbContext::getContext();
 
         try {
             $statement = $pdo
-                ->prepare('CALL createUser(?, ?, ?)');
+                ->prepare('CALL createProperty(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
             $statement
-                ->bindParam(1, $model['username'], PDO::PARAM_STR, 255);
+                ->bindParam(1, $model['type'], PDO::PARAM_STR, 100);
             $statement
-                ->bindParam(2, $model['email'], PDO::PARAM_STR, 255);
+                ->bindParam(2, $model['road'], PDO::PARAM_STR, 200);
             $statement
-                ->bindParam(3, $model['password'], PDO::PARAM_STR, 255);
+                ->bindParam(3, $model['postal'], PDO::PARAM_STR, 4);
+            $statement
+                ->bindParam(4, $model['municipality'], PDO::PARAM_STR, 100);
+            $statement
+                ->bindParam(5, $model['number'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(6, $model['floor'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(7, $model['door'], PDO::PARAM_STR, 20);
+            $statement
+                ->bindParam(8, $model['rooms'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(9, $model['area'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(10, $model['year'], PDO::PARAM_STR, 10);
+            $statement
+                ->bindParam(11, $model['expenses'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(12, $model['deposit'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(13, $model['price'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(14, $model['map'], PDO::PARAM_STR, 2083);
+            $statement
+                ->bindParam(15, $model['images']);
 
             $statement
                 ->execute();
         } catch (PDOException $exception) {
-            $errorCode = $exception
-                ->getCode();
-
-            //On duplicate key
-            if ($errorCode === '23000') {
-                return 409;
-            }
-
             return 500;
         }
 
         return 201;
-    }
-
-    /**
-    * Updates an user in the database.
-    *
-    * @param array $model The required user information.
-    * @return int Returns an integer corresponding to a HTTP status code.
-    */
-    public function update($username, array $model)
-    {
-        $pdo = DbContext::getContext();
-
-        try {
-            $statement = $pdo
-                ->prepare('UPDATE `users` SET `email` = ?, `password` = ? WHERE `username` = ?');
-
-            $statement
-                ->bindParam(1, $model['email'], PDO::PARAM_STR, 255);
-            $statement
-                ->bindParam(2, $model['password'], PDO::PARAM_STR, 255);
-            $statement
-                ->bindParam(3, $username, PDO::PARAM_STR, 255);
-
-            $statement
-                ->execute();
-        } catch (PDOException $exception) {
-            return 500;
-        }
-
-        return 204;
     }
 }

@@ -7,8 +7,8 @@
 DROP DATABASE IF EXISTS `property_agent`;
 
 CREATE DATABASE `property_agent`
-    CHARACTER SET = 'utf8mb4'
-    COLLATE 'utf8mb4_unicode_ci';
+    CHARACTER SET = 'utf8'
+    COLLATE 'utf8_general_ci';
 
 USE `property_agent`;
 
@@ -42,9 +42,7 @@ CREATE TABLE `scopes` (
     PRIMARY KEY (`id`),
     UNIQUE `scope_UNIQUE` (`scope`)
 )
-ENGINE = InnoDB
-CHARACTER SET 'ascii'
-COLLATE 'ascii_general_ci';
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `property_agent`.`user_scopes`

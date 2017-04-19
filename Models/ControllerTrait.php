@@ -54,14 +54,14 @@ abstract class ControllerTrait
     protected function json($contents, $statusCode = 200)
     {
         if (is_array($contents) || is_object($contents)) {
-            $contents = json_encode(
+            $encoded = json_encode(
                 (array) $contents,
                 JSON_BIGINT_AS_STRING
             );
 
             return $this->writeResponse(
                 'application/json',
-                $contents,
+                $encoded,
                 $statusCode
             );
         }

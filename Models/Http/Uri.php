@@ -156,11 +156,13 @@ class Uri implements UriInterface
     /**
     * @inherit
     */
-    public function getAuthority()
+    public function getAuthority($withPort = true)
     {
         $userInfo = $this->getUserInfo();
 
-        return (empty($userInfo) ? '' : '@'.$userInfo).$this->host.($this->port === null ? '' : ':'.$this->port);
+        $port = $withPort ? ($this->port === null ? '' : ':'.$this->port) : '';
+
+        return (empty($userInfo) ? '' : '@'.$userInfo).$this->host.$port;
     }
 
     /**
