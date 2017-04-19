@@ -6,6 +6,15 @@ use PropertyAgent\Models\Authentication as Auth;
 
 class AuthController extends ControllerTrait
 {
+    public function verified()
+    {
+        if (Auth::isVerified) {
+            return $this->text('Signed in as '.$_SESSION['username'], 200);
+        }
+
+        return $this->status(403);
+    }
+
     public function signIn()
     {
         $body = $this->request->getParsedBody();

@@ -9,6 +9,14 @@ use PropertyAgent\Models\Authentication as Auth;
 
 $app = new Application();
 
+// Is user signed in?
+$app->registerRoute(
+    'GET',
+    '@^/auth/verified/$@i',
+    'AuthController',
+    'verified'
+);
+
 // Sign user in
 $app->registerRoute(
     'POST',

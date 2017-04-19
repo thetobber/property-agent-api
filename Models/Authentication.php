@@ -7,7 +7,7 @@ use PropertyAgent\Data\DbContext;
 use Respect\Validation\Validator;
 
 /**
-* Defines a class with methods that can be used to verify what the current 
+* Defines a class with methods that can be used to verify what the current
 * user can access or sign an user in or out of the application.
 */
 abstract class Authentication
@@ -26,7 +26,7 @@ abstract class Authentication
     );
 
     /**
-    * Validates the username and password signing in the user if the credentials 
+    * Validates the username and password signing in the user if the credentials
     * are valid and stores some information about the user in their session.
     *
     * @param string $username
@@ -36,13 +36,13 @@ abstract class Authentication
     public static function signIn($username, $password)
     {
         $usernameValidator = Validator::stringType()
-                    ->noWhitespace()
-                    ->alnum('-_')
-                    ->length(4, 200);
+            ->noWhitespace()
+            ->alnum('-_')
+            ->length(4, 200);
 
         $passwordValidator = Validator::stringType()
-                    ->notEmpty()
-                    ->length(6, 255);
+            ->notEmpty()
+            ->length(6, 255);
 
         if (!$usernameValidator->validate($username) || !$passwordValidator->validate($password)) {
             return false;
@@ -51,7 +51,8 @@ abstract class Authentication
         $pdo = DbContext::getContext();
 
         try {
-            $statement = $pdo->prepare('CALL getUserForSignIn(?, ?)');
+            $statement = $pdo
+                ->prepare('CALL getUserForSignIn(?, ?)');
 
             $statement
                 ->bindParam(1, $username, PDO::PARAM_STR, 200);
@@ -100,9 +101,9 @@ abstract class Authentication
     }
 
     /**
-    * Checks if theuser is signed in and if their username is the same as 
-    * the given argument. This is for example used to check if the user has 
-    * permission to view their own profile in case they do not have an admin 
+    * Checks if theuser is signed in and if their username is the same as
+    * the given argument. This is for example used to check if the user has
+    * permission to view their own profile in case they do not have an admin
     * or super admin scope.
     *
     * @return bool
@@ -117,9 +118,9 @@ abstract class Authentication
     }
 
     /**
-    * Checks if the user is signed in and have one of the one of the scopes 
-    * given in the arguments. This will match the first scope that the user 
-    * have and return true, if they have 1 of the given scopes or false if 
+    * Checks if the user is signed in and have one of the one of the scopes
+    * given in the arguments. This will match the first scope that the user
+    * have and return true, if they have 1 of the given scopes or false if
     * they have none.
     *
     * @return bool
