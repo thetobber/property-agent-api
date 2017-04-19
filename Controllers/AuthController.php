@@ -8,11 +8,11 @@ class AuthController extends ControllerTrait
 {
     public function verified()
     {
-        if (Auth::isVerified) {
+        if (Auth::isVerified()) {
             return $this->text('Signed in as '.$_SESSION['username'], 200);
         }
 
-        return $this->status(403);
+        return $this->text('You are not signed in', 403);
     }
 
     public function signIn()
