@@ -5,6 +5,12 @@ use InvalidArgumentException;
 use PropertyAgent\Models\Http\ServerRequest;
 use PropertyAgent\Models\Http\Response;
 
+/**
+* Defines the basic need of a controller class and a few helpful 
+* methods for returning a response. The request and response 
+* object is injected into class upon instantiation if the route 
+* which is associated with this controller is used.
+*/
 abstract class ControllerTrait
 {
     /**

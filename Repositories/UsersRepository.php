@@ -5,6 +5,10 @@ use PDO;
 use PDOException;
 use PropertyAgent\Data\DbContext;
 
+/**
+* Defines a mediator between the application and database for createing,
+* reading or updating users.
+*/
 class UsersRepository
 {
     /**

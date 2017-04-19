@@ -8,13 +8,14 @@ use PropertyAgent\Models\Http\UploadedFile;
 use PropertyAgent\Models\Http\Stream;
 
 /**
-* @todo
+* Defines a factory class which create an instance of server request 
+* from the PHP super globals.
 */
 class ServerRequestFactory
 {
     /**
-    * A few headers passed int the $_SERVER super global which is not prfiex with 
-    * HTTP_
+    * A few headers passed int the $_SERVER super global which is not 
+    * prefixed with "HTTP_".
     *
     * @var array
     */
@@ -30,7 +31,10 @@ class ServerRequestFactory
     private function __construct() {}
 
     /**
-    * @todo
+    * Return a new instance of serverrequest based on the PHP super 
+    * globals.
+    *
+    * @return ServerRequest
     */
     public static function getServerRequest($serverRequestAttributes = array())
     {
@@ -57,7 +61,11 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Get all the variables in the $_SERVER super global which is not 
+    * HTTP headers.
+    *
+    * @return array Returns an array of variables with information about 
+    *   the server and request.
     */
     public static function getParams()
     {
@@ -71,7 +79,9 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Get the HTTP protocol version of the request.
+    *
+    * @return string The procotol version.
     */
     public static function getProtocolVersion()
     {
@@ -79,7 +89,10 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Get all the upladed files (if any exist) and instantiate a new 
+    * UploadedFile object for each file.
+    *
+    * @return array Returns an array of UploadedFile instances.
     */
     public static function getUploadedFiles()
     {
@@ -103,7 +116,10 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Constructs and return the Uri of the request based on the PHP 
+    * super globals.
+    *
+    * @return Uri Return the Uri to the request resource.
     */
     public static function getUri()
     {
@@ -119,7 +135,10 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Creates a stream and copies the input stream (e.g. body of the request) 
+    * to a Stream object and returns it.
+    *
+    * @return Stream Return the body of the incoming request.
     */
     public static function getBody()
     {
@@ -136,7 +155,11 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Get all the headers which is contained in the $_SERVER super global.
+    * These headers are then normalized to adhere with the HTTP standards 
+    * over from the CGI standards.
+    *
+    * @return array Returns an array of all HTTP headers.
     */
     public static function getHeaders(array $server)
     {
@@ -161,7 +184,12 @@ class ServerRequestFactory
     }
 
     /**
-    * @todo
+    * Used for normalizing a HTTP header contained in the $_SERVER super global 
+    * from the CGI standard to the HTTP standard.
+    *
+    * @param string $key The key to normalize.
+    * @param string $prefix Prefix in the key used to identify if it should be normalized.
+    * @return string|null Returns if the $prefix is not in the string.
     */
     public static function normalizeKey($key, $prefix = '')
     {

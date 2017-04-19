@@ -7,12 +7,17 @@ use Respect\Validation\Validator;
 use PropertyAgent\Models\Authentication as Auth;
 
 /**
-* @todo
+* Defines a controller which handles the incoming request concerning users.
 */
 class UsersController extends ControllerTrait
 {
     /**
-    * @todo
+    * Returns a single user from the database based on a username. An user can 
+    * only be returned if the requestee has an admin or superadmin scope. The 
+    * only exception to this is that users can view their own profile.
+    *
+    * @return Response Returns a response object with a status code and json 
+    *   if the request was a success.
     */
     public function getUser()
     {
@@ -36,7 +41,10 @@ class UsersController extends ControllerTrait
     }
 
     /**
-    * @todo
+    * Returns all users if th requestee has either the admin or super admin 
+    * scope. The result is paginated based on the request path.
+    *
+    * @return Response Returns either a status code or json on success.
     */
     public function getUsers()
     {
@@ -81,7 +89,12 @@ class UsersController extends ControllerTrait
     }
 
     /**
-    * @todo
+    * Creates a single user in the database. The submitted user information is 
+    * validated and a status code is returned based on the success or failure 
+    * of the request. This does not require any scopes as it's used for signing
+    * up new users. All users get a default scope of normal.
+    *
+    * @return Response Returns a status code.
     */
     public function createUser()
     {
@@ -128,7 +141,12 @@ class UsersController extends ControllerTrait
     }
 
     /**
-    * @todo
+    * Updates the information about a single user. The requestee is required to 
+    * be the same user or have a scope of admin or superadmin. The submitted 
+    * information is validated. A status code is returned based on the success 
+    * of the request.
+    *
+    * @return Response Returns a status code.
     */
     public function updateUser()
     {
