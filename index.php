@@ -75,6 +75,23 @@ $app->registerRoute(
     'createProperty'
 );
 
+// Update a property by id
+$app->registerRoute(
+    'POST',
+    '@^/properties/(?<id>[0-9]+?)/$@i',
+    'PropertiesController',
+    'updateProperty'
+);
+
+// Delete a property by id
+$app->registerRoute(
+    'POST',
+    '@^/properties/d/(?<id>[0-9]+?)/$@i',
+    'PropertiesController',
+    'deleteProperty'
+);
+
+
 
 
 

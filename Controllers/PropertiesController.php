@@ -12,8 +12,6 @@ use PropertyAgent\Models\Authentication as Auth;
 */
 class PropertiesController extends ControllerTrait
 {
-    const MAPS_KEY = 'AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY';
-
     /**
     * @todo
     */
@@ -94,7 +92,7 @@ class PropertiesController extends ControllerTrait
     /**
     * @todo
     */
-    public function createProperty()
+    public function createProperty($update = false, $id = null)
     {
         if (!Auth::hasScopes('realtor' ,'admin', 'superadmin')) {
             return $this->status(403);
@@ -156,6 +154,13 @@ class PropertiesController extends ControllerTrait
                 Validator::intVal()->between(0, 18446744073709551615, true)
             );
 
+        /*try {
+            $propertyValidator->check($body);
+        } catch(Respect\Validation\Exceptions\ValidationException $e) {
+            var_dump($e->getMainMessage());
+            die();
+        }*/
+
         if (!$propertyValidator->validate($body)) {
             return $this->status(400);
         }
@@ -200,7 +205,12 @@ class PropertiesController extends ControllerTrait
 
         $body['images'] = serialize($filePaths);
 
-        $status = $repo->create($body);
+        if ($update && $id !== null) {
+            $status = $repo->update($id, $body);
+        } else {
+            $status = $repo->create($body);
+        }
+
 
         if ($status === 201) {
             foreach ($fileSources as $file) {
@@ -214,6 +224,10 @@ class PropertiesController extends ControllerTrait
             return $this->status(201);
         }
 
+        if ($status === 404) {
+            return $this->status(404);
+        }
+
         if ($status === 409) {
             return $this->status(409);
         }
@@ -225,11 +239,41 @@ class PropertiesController extends ControllerTrait
 
     public function updateProperty()
     {
-        return $this->status(501);
+        if (!Auth::hasScopes('realtor' ,'admin', 'superadmin')) {
+            return $this->status(403);
+        }
+
+        $id = (int) $this->params['id'];
+        
+        if ($id < 1) {
+            return $this->status(404);
+        }
+
+        return $this->createProperty(true, $id);
     }
 
     public function deleteProperty()
     {
-        return $this->status(501);
+        if (!Auth::hasScopes('realtor' ,'admin', 'superadmin')) {
+            return $this->status(403);
+        }
+
+        $id = (int) $this->params['id'];
+
+        if ($id < 1) {
+            return $this->status(404);
+        }
+
+        $repo = new PropertiesRepository();
+
+        $status = $repo->delete($id);
+
+        if ($status === 204) {
+            return $this->status(204);
+        }
+
+        if ($status === 500) {
+            return $this->status(500);
+        }
     }
 }

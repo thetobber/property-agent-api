@@ -115,6 +115,10 @@ END//
 DELIMITER ;*/
 
 DELIMITER //
+
+-- -----------------------------------------------------
+-- Stored procedure `property_agent`.`createProperty`
+-- -----------------------------------------------------
 CREATE PROCEDURE createProperty(
     IN inType         VARCHAR(100),
     IN inRoad         VARCHAR(200),
@@ -148,10 +152,65 @@ BEGIN
         SELECT `postal` FROM `municipalities` WHERE `postal` = inPostal INTO postal_id;
 
         INSERT INTO `properties` VALUES (null, type_id, road_id, inNumber, inFloor, inDoor, postal_id, inRooms, inArea, inYear, inExpenses, inDeposit, inPrice, inImages, inMap);
+    COMMIT;
+END//
 
-        SELECT * FROM `properties_view` WHERE `id` = LAST_INSERT_ID();
+
+-- -----------------------------------------------------
+-- Stored procedure `property_agent`.`updateProperty`
+-- -----------------------------------------------------
+CREATE PROCEDURE updateProperty(
+    IN inId         INT UNSIGNED,
+    IN inType         VARCHAR(100),
+    IN inRoad         VARCHAR(200),
+    IN inPostal       CHAR(4),
+    IN inMunicipality VARCHAR(100),
+    IN inNumber       SMALLINT UNSIGNED,
+    IN inFloor        TINYINT UNSIGNED,
+    IN inDoor         VARCHAR(20),
+    IN inRooms        SMALLINT UNSIGNED,
+    IN inArea         INT UNSIGNED,
+    IN inYear         VARCHAR(10),
+    IN inExpenses     INT UNSIGNED,
+    IN inDeposit      INT UNSIGNED,
+    IN inPrice        BIGINT UNSIGNED,
+    IN inMap          VARCHAR(2083),
+    IN inImages       MEDIUMBLOB
+)
+BEGIN
+    DECLARE new_type_id INT UNSIGNED;
+    DECLARE new_road_id INT UNSIGNED;
+    DECLARE new_postal_id CHAR(4);
+
+    START TRANSACTION;
+        INSERT IGNORE INTO `types` (`type`) VALUES (inType);
+        SELECT `id` FROM `types` WHERE `type` = inType INTO new_type_id;
+
+        INSERT IGNORE INTO `roads` (`road`) VALUES (inRoad);
+        SELECT `id` FROM `roads` WHERE `road` = inRoad INTO new_road_id;
+
+        INSERT IGNORE INTO `municipalities` VALUES (inPostal, inMunicipality);
+        SELECT `postal` FROM `municipalities` WHERE `postal` = inPostal INTO new_postal_id;
+
+        UPDATE `properties` SET
+            `type_id`             = new_type_id,
+            `road_id`             = new_road_id,
+            `number`              = inNumber,
+            `floor`               = inFloor,
+            `door`                = inDoor,
+            `municipality_postal` = new_postal_id,
+            `rooms`               = inRooms,
+            `area`                = inArea,
+            `year`                = inYear,
+            `expenses`            = inExpenses,
+            `deposit`             = inDeposit,
+            `price`               = inPrice,
+            `images`              = inImages,
+            `map`                 = inMap
+        WHERE `id` = inId;
     COMMIT;
 END//
 DELIMITER ;
 
 #CALL createProperty('Værelse', 'Rebæk Søpark', '2650', 'Hvidovre', 5, 1, '240', 1, 23, '1962', 2375, 8000, 0, 'abc', null);
+#CALL updateProperty('Værelse', 'Rebæk Søpark', '2650', 'Hvidovre', 5, 1, '240', 1, 23, '1962', 2375, 8000, 0, null, null);

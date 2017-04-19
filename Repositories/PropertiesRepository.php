@@ -83,7 +83,7 @@ class PropertiesRepository
         return 0;
     }
 
-    public function create(array $model)
+    public function create(array $model, $update = false)
     {
         $pdo = DbContext::getContext();
 
@@ -129,5 +129,91 @@ class PropertiesRepository
         }
 
         return 201;
+    }
+
+    public function update($id, array $model)
+    {
+        $pdo = DbContext::getContext();
+
+        try {
+            $statement = $pdo
+                ->prepare('SELECT `id` FROM `properties` WHERE `id` = ?');
+
+            $statement
+                ->bindParam(1, $id, PDO::PARAM_INT);
+            
+            $statement
+                ->execute();
+
+            $exists = $statement
+                ->fetch(PDO::FETCH_ASSOC);
+
+            if ($exists === false) {
+                return 404;
+            }
+
+            $statement = $pdo
+                ->prepare('CALL updateProperty(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+
+            $statement
+                ->bindParam(1, $id, PDO::PARAM_INT);
+            $statement
+                ->bindParam(2, $model['type'], PDO::PARAM_STR, 100);
+            $statement
+                ->bindParam(3, $model['road'], PDO::PARAM_STR, 200);
+            $statement
+                ->bindParam(4, $model['postal'], PDO::PARAM_STR, 4);
+            $statement
+                ->bindParam(5, $model['municipality'], PDO::PARAM_STR, 100);
+            $statement
+                ->bindParam(6, $model['number'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(7, $model['floor'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(8, $model['door'], PDO::PARAM_STR, 20);
+            $statement
+                ->bindParam(9, $model['rooms'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(10, $model['area'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(11, $model['year'], PDO::PARAM_STR, 10);
+            $statement
+                ->bindParam(12, $model['expenses'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(13, $model['deposit'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(14, $model['price'], PDO::PARAM_INT);
+            $statement
+                ->bindParam(15, $model['map'], PDO::PARAM_STR, 2083);
+            $statement
+                ->bindParam(16, $model['images']);
+
+            $statement
+                ->execute();
+        } catch (PDOException $exception) {
+            return 500;
+        }
+
+        return 201;
+    }
+
+    public function delete($id)
+    {
+        $pdo = DbContext::getContext();
+
+        try {
+            $statement = $pdo
+                ->prepare('DELETE FROM `properties` WHERE `id` = ? LIMIT 1');
+
+            $statement
+                ->bindParam(1, $id, PDO::PARAM_INT);
+
+            $statement
+                ->execute();
+        } catch (PDOException $exception) {
+            return 500;
+        }
+
+        return 204;
     }
 }
