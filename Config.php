@@ -48,5 +48,5 @@ abstract class Config
     *
     * @var int
     */
-    const PAGE_LIMIT = 8;
+    const PAGE_LIMIT = 6;
 }
