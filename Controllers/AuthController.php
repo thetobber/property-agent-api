@@ -9,10 +9,27 @@ class AuthController extends ControllerTrait
     public function verified()
     {
         if (Auth::isVerified()) {
-            return $this->text('Signed in as '.$_SESSION['username'], 200);
+            return $this->status(204);
         }
 
-        return $this->text('You are not signed in', 403);
+        return $this->status(403);
+    }
+
+    public function scopes()
+    {
+        $body = $this->request->getParsedBody();
+
+        if (empty($body)) {
+            return $this->status(400);
+        }
+
+        foreach ($body as $scope => $value) {
+            if (Auth::hasScopes($scope)) {
+                return $this->status(204);
+            }
+        }
+
+        return $this->status(403);
     }
 
     public function signIn()
@@ -24,7 +41,10 @@ class AuthController extends ControllerTrait
         }
 
         if (Auth::signIn($body['username'], $body['password'])) {
-            return $this->status(204);
+            return $this->json(array(
+                'username' => $_SESSION['username'],
+                'scopes' => $_SESSION['scopes']
+            ), 200);
         }
 
         return $this->status(400);

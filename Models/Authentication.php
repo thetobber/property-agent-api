@@ -71,7 +71,6 @@ abstract class Authentication
 
             $_SESSION['username'] = strtolower($user['username']);
             $_SESSION['scopes'] = array_flip(explode(',', strtolower($user['scopes'])));
-            $_SESSION['verified'] = true;
 
             return true;
         }
@@ -97,7 +96,7 @@ abstract class Authentication
     */
     public static function isVerified()
     {
-        return (isset($_SESSION['verified']) && $_SESSION['verified'] === true);
+        return isset($_SESSION['username'], $_SESSION['scopes']);
     }
 
     /**

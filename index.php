@@ -1,4 +1,6 @@
 <?php
+session_set_cookie_params(0, '/', '.propertyagent.local', false, true);
+
 session_start();
 ini_set('html_errors', false);
 require(__DIR__.'/vendor/autoload.php');
@@ -17,6 +19,14 @@ $app->registerRoute(
     'verified'
 );
 
+// Is user signed in?
+$app->registerRoute(
+    'POST',
+    '@^/auth/scopes/$@i',
+    'AuthController',
+    'scopes'
+);
+
 // Sign user in
 $app->registerRoute(
     'POST',
@@ -27,7 +37,7 @@ $app->registerRoute(
 
 // Sign user out
 $app->registerRoute(
-    'POST',
+    'GET',
     '@^/auth/signout/$@i',
     'AuthController',
     'signOut'
