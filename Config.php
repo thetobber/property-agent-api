@@ -42,4 +42,11 @@ abstract class Config
     * @var string
     */
     const GMAPS_KEY = 'AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY';
+
+    /**
+    * Limit of items per page for paginated results.
+    *
+    * @var int
+    */
+    const PAGE_LIMIT = 8;
 }

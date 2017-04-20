@@ -1,6 +1,7 @@
 <?php
 namespace PropertyAgent\Controllers;
 
+use PropertyAgent\Config;
 use PropertyAgent\Models\ControllerTrait;
 use PropertyAgent\Repositories\UsersRepository;
 use Respect\Validation\Validator;
@@ -52,7 +53,7 @@ class UsersController extends ControllerTrait
             return $this->status(403);
         }
 
-        $limit = 2;
+        $limit = Config::PAGE_LIMIT;
         $page = isset($this->params['page']) ? (int) $this->params['page'] : 0;
 
         if ($page >= 1) {

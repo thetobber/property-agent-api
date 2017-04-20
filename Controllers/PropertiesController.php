@@ -43,7 +43,7 @@ class PropertiesController extends ControllerTrait
     */
     public function getProperties()
     {
-        $limit = 2;
+        $limit = Config::PAGE_LIMIT;
         $page = isset($this->params['page']) ? (int) $this->params['page'] : 0;
 
         if ($page >= 1) {
