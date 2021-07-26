@@ -19,14 +19,14 @@ abstract class Config
     *
     * @var string
     */
-    const DB_NAME = 'property_agent';
+    const DB_NAME = '';
 
     /**
     * The username for accessing the database.
     *
     * @var string
     */
-    const DB_USER = 'root';
+    const DB_USER = '';
 
     /**
     * The password to use in conjuction with the username.
@@ -41,7 +41,7 @@ abstract class Config
     *
     * @var string
     */
-    const GMAPS_KEY = 'AIzaSyAJ4z06vdTUt-T4HAHk-fdsEZ1_Gc1SCmY';
+    const GMAPS_KEY = '';
 
     /**
     * Limit of items per page for paginated results.
